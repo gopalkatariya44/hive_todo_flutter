@@ -17,6 +17,7 @@ class TodoController extends GetxController {
   var uuid = const Uuid();
 
   var todoList = <Todo>[].obs;
+  var todoCompleteList = <Todo>[].obs;
 
   createTodo() {
     if (formKey.currentState!.validate()) {
@@ -38,7 +39,7 @@ class TodoController extends GetxController {
       Todo(
         id: todo.id,
         title: todoTitleController.text,
-        isEnable: false,
+        isEnable: todo.isEnable,
         createdAt: todo.createdAt,
         updatedAt: DateTime.now(),
       ).toJson(),
@@ -48,7 +49,6 @@ class TodoController extends GetxController {
   }
 
   onCheckTodo(key, isEnable) {
-    print(todo.toJson());
     todoBox.put(
       key,
       Todo(
@@ -67,18 +67,22 @@ class TodoController extends GetxController {
     refreshTodoList();
   }
 
-  // return {"key": key, "name": todo['name'], "isEnable": todo['isEnable']};
   refreshTodoList() {
-    // todoBox.clear();
+    todoList.clear();
+    todoCompleteList.clear();
     final todos = todoBox.keys.map((key) {
       final todo = Map<String, dynamic>.from(todoBox.get(key));
       todo.addAll({"key": key});
-      print(todo);
-      // print(todo.runtimeType);
       return Todo.fromJson(todo);
     }).toList();
-    todoList.value = todos.reversed.cast<Todo>().toList();
-    print(todoList);
+    for (var todo in todos) {
+      if (todo.isEnable == false) {
+        todoList.add(todo);
+      } else {
+        todoCompleteList.add(todo);
+      }
+    }
+    // todoList.value = todos.reversed.cast<Todo>().toList();
   }
 
   @override
