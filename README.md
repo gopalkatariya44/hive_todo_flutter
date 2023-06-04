@@ -2,6 +2,11 @@
 
 A new Flutter project.
 
+###### screenshots of the app
+<img src="/ss/todo list.png" height="500">
+<img src="/ss/add.png" height="500">
+<img src="/ss/update.png" height="500">
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
